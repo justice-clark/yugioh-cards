@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YgoDB Card Link</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 10px; }
+    p { color: #aaa; margin-bottom: 30px; }
+    .button {
+      background: #2196F3;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .button:hover { background: #1976D2; }
+    .fallback { margin-top: 20px; color: #888; font-size: 14px; }
+    .fallback a { color: #64b5f6; }
+  </style>
+</head>
+<body>
+  <h1>YgoDB Card Link</h1>
+  <p id="message">Redirecting to the app...</p>
+  <a id="openApp" class="button" href="#">Open in YgoDB</a>
+  <p class="fallback">
+    Don't have the app? View on
+    <a id="ygoprodeckLink" href="https://ygoprodeck.com" target="_blank">YGOProDeck</a>
+  </p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const cardId = params.get('card');
+
+    if (cardId) {
+      const deepLink = `ygodbreact://card/${cardId}`;
+      const ygoprodeckUrl = `https://ygoprodeck.com/card/?search=${cardId}`;
+
+      document.getElementById('openApp').href = deepLink;
+      document.getElementById('ygoprodeckLink').href = ygoprodeckUrl;
+      document.getElementById('message').textContent = `Opening card #${cardId}...`;
+
+      // Try to open the app automatically
+      window.location.href = deepLink;
+    } else {
+      document.getElementById('message').textContent = 'No card specified';
+      document.getElementById('openApp').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
